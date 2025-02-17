@@ -15,7 +15,7 @@ Simple web application for managing user balance using Node.js, Express, and Pos
 npm install
 ```
 
-2. Make sure PostgreSQL is running and create a database named 'balance_db'
+2. Set config src/config for PostgreSQL
 
 3. Start the application:
 ```bash
