@@ -34,7 +34,7 @@ The application will automatically run migrations and create a user with an init
   {
     "userId": 1,
     "amount": 100,
-    "operation" : "debit" |  "credit"
+    "operation" : "debit"
   }
   ```
 - **Response**: Returns the new balance after the update
