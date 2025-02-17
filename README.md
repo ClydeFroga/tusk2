@@ -33,7 +33,8 @@ The application will automatically run migrations and create a user with an init
   ```json
   {
     "userId": 1,
-    "amount": 100
+    "amount": 100,
+    "operation" : "debit" |  "credit"
   }
   ```
 - **Response**: Returns the new balance after the update
