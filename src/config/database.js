@@ -1,8 +1,8 @@
 const dbConfig = {
-  host: '192.168.1.28',
+  host: '',
   port: 5432,
   username: 'postgres',
-  password: 'tpms',
+  password: '',
   dialect: 'postgres',
   database: 'balance_db',
   logging: false,
