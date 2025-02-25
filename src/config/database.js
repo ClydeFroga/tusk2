@@ -1,23 +1,23 @@
 const dbConfig = {
-  host: '',
+  host: "192.168.1.28",
   port: 5432,
-  username: 'postgres',
-  password: '',
-  dialect: 'postgres',
-  database: 'balance_db',
+  username: "postgres",
+  password: "tpms",
+  dialect: "postgres",
+  database: "balance_db",
   logging: false,
   pool: {
-    max: 20, // Уменьшаем максимальное количество соединений
-    min: 5,  // Увеличиваем минимальное количество соединений
-    acquire: 120000, // Увеличиваем время ожидания соединения
+    max: 20,
+    min: 5,
+    acquire: 120000,
     idle: 10000,
-    evict: 1000, // Частота проверки неактивных соединений
-    handleDisconnects: true // Автоматическая обработка разрывов соединения
+    evict: 1000,
+    handleDisconnects: true,
   },
-  isolationLevel: 'REPEATABLE READ',
+  isolationLevel: "REPEATABLE READ",
   retry: {
-    max: 3 // Количество попыток переподключения
-  }
+    max: 3,
+  },
 };
 
 module.exports = dbConfig;
