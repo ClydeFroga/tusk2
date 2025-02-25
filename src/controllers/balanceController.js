@@ -1,30 +1,29 @@
 const BalanceService = require("../services/balanceService");
+const { AppError } = require("../utils/errorCodes");
 
 class BalanceController {
   constructor(User) {
     this.balanceService = new BalanceService(User);
   }
 
-  async updateBalance(req, res) {
+  async updateBalance(req, res, next) {
     const { userId, amount } = req.body;
 
     try {
+      // Проверка входных данных
+      if (!userId || amount === undefined) {
+        return next(
+          new AppError("INVALID_REQUEST", {
+            message: "Отсутствуют обязательные поля: userId и amount",
+          })
+        );
+      }
+
       const result = await this.balanceService.updateBalance(userId, amount);
       return res.json(result);
     } catch (error) {
-      if (error.message === "User not found") {
-        return res.status(404).json({ error: error.message });
-      }
-
-      if (error.message === "Insufficient funds") {
-        return res.status(400).json({ error: error.message });
-      }
-
-      console.error("Error details:", error);
-      return res.status(500).json({
-        error: "Internal server error",
-        details: error.message,
-      });
+      // Все ошибки уже обработаны в сервисе, просто передаем их дальше
+      return next(error);
     }
   }
 }

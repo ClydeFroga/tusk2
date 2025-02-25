@@ -1,3 +1,5 @@
+const { AppError } = require("../utils/errorCodes");
+
 class BalanceService {
   constructor(User) {
     this.User = User;
@@ -10,13 +12,17 @@ class BalanceService {
       const user = await this.User.findByPk(userId);
 
       if (!user) {
-        throw new Error("User not found");
+        throw new AppError("USER_NOT_FOUND", { userId });
       }
 
       const currentBalance = user.balance;
 
       if (amount < 0 && currentBalance < Math.abs(operationAmount)) {
-        throw new Error("Insufficient funds");
+        throw new AppError("INSUFFICIENT_FUNDS", {
+          userId,
+          currentBalance,
+          requestedAmount: operationAmount,
+        });
       }
 
       user.balance = parseFloat(currentBalance) + operationAmount;
@@ -26,7 +32,23 @@ class BalanceService {
         newBalance: user.balance,
       };
     } catch (error) {
-      throw error;
+      // Если это уже наша кастомная ошибка AppError, просто передаем ее дальше
+      if (error instanceof AppError) {
+        throw error;
+      }
+
+      // Для ошибок базы данных
+      if (
+        error.name === "SequelizeError" ||
+        error.name === "SequelizeDatabaseError"
+      ) {
+        throw new AppError("DATABASE_ERROR", { originalError: error.message });
+      }
+
+      // Для всех остальных ошибок
+      throw new AppError("INTERNAL_SERVER_ERROR", {
+        originalError: error.message,
+      });
     }
   }
 }
