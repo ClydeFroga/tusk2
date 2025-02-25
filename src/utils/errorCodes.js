@@ -15,11 +15,6 @@ const ERROR_CODES = {
     status: 400,
     message: "Неверный запрос",
   },
-  UNAUTHORIZED: {
-    code: 1002,
-    status: 401,
-    message: "Не авторизован",
-  },
   FORBIDDEN: {
     code: 1003,
     status: 403,
